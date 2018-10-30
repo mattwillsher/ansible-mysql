@@ -1,7 +1,7 @@
 mattwillsher.mysql
 ==================
 
-This role installs MySQL or its forked upstraem version MariaDB. 
+This role installs MySQL or its forked upstream version MariaDB. 
 
 It can use two types of repository source - `native`, from the OS default
 repositories, and `mariadb`, which uses the repositories at
