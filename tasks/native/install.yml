@@ -1,0 +1,38 @@
+---
+
+- name: Set native package name dependent on version given
+  set_fact:
+    mysql_package_name: "{{ mysql_native_version_package_map[version] }}"
+  when:
+    - version is defined
+    - mysql_native_version_package_map is defined
+    - version in mysql_native_version_package_map
+
+- name: Set native package name otherwise
+  set_fact:
+    mysql_package_name: "{{ mysql_native_package_name }}"
+  when: (mysql_native_version_package_map is not defined) or (version is not defined)
+
+- name: Install default OS native MySQL/MariaDB compatible server
+  package:
+    name: "{{ mysql_package_name }}"
+  when: version is not defined
+  notify: "Start Service"
+
+- name: Install given version of OS native MySQL/MariaDB compatible server
+  package:
+    name: "{{ mysql_package_name }}-{{ version }}"
+  when: version is defined
+  notify: "Start Service"
+
+- name: Set mysql_service_name from map, if map is defined
+  set_fact:
+    mysql_service_name: "{{ mysql_native_package_service_map[mysql_native_package_name] }}"
+  when:
+    - mysql_native_package_service_map is defined
+
+- name: mysql_service_name statically when map is not defined
+  set_fact:
+    mysql_service_name: "{{ mysql_native_service_name }}"
+  when:
+    - mysql_native_package_service_map is not defined

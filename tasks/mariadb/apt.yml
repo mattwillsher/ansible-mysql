@@ -1,0 +1,14 @@
+---
+- name: APT repository signing-key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: "{{ item }}"
+  loop:
+    - F1656F24C74CD1D8
+    - cbcb082a1bb943db
+
+- name: APT repository source file
+  apt_repository:
+    repo: "deb [arch=amd64,i386] {{ mysql_mariadb_mirror }}/{{ version }}/{{ ansible_facts.distribution|lower }} {{ ansible_facts.distribution_release }} main"
+    update_cache: true
+    filename: 'mariadb'

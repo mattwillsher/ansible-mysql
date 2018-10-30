@@ -1,0 +1,10 @@
+---
+- hosts: running
+  connection: docker
+  roles:
+	- {
+	role: mattwillsher.mysql,
+	#version: 5.6,
+	root_password: 'mysuperpassword',
+	mysql_databases: [{ name: 'mydb1'}, {name: 'mydb2' }],
+	}

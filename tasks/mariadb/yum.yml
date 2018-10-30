@@ -1,0 +1,17 @@
+---
+- name: MariaDB RPM GPG KEY on server
+  copy:
+    src: RPM-GPG-KEY-MariaDB
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-MariaDB
+    owner: root
+    group: root
+    mode: 0644
+
+- name: MariaDB RPM GPG KEY in RPM keyring
+  rpm_key:
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-MariaDB
+
+- name: MariaDB Yum Repository configuration
+  template:
+    src: MariaDB.repo.j2
+    dest: /etc/yum.repos.d/MariaDB.repo

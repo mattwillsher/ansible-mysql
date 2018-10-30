@@ -1,0 +1,11 @@
+---
+- name: APT repository signing-key
+  apt_key:
+    data: "{{ lookup('file', 'RPM-GPG-KEY-mysql') }}"
+    id: 8C718D3B5072E1F5
+
+- name: APT repository source file
+  apt_repository:
+    repo: deb http://repo.mysql.com/apt/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release }} mysql-{{ mysql_version }}
+    update_cache: true
+    filename: 'mysql'

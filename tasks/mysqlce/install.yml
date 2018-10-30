@@ -1,0 +1,19 @@
+---
+- name: Check if the Community Edition is supported
+  fail:
+    msg: "MySQL Community Edition is not support on this platform: {{ mysql_community_fail_reason }}"
+  when:
+    - mysql_community_edition_supported | default('false') == false
+
+- name: Community Edition Package Repositories
+  include_tasks: "{{ ansible_facts.pkg_mgr }}.yml"
+
+- name: Install MySQL
+  package:
+    name: "{{ mysql_package_name }}"
+    state: present
+  register: mysql_package_installed
+
+- name: Set service facts
+  set_fact:
+    mysql_service_name: "{{ mysql_service_names[ansible_facts.service_mgr] }}"

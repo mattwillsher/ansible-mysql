@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  roles:
+  - {
+  role: mattwillsher.mysql,
+  root_password: 'mysuperpassword',
+  mysql_databases: [{ name: 'mydb1'}, {name: 'mydb2' }]
+  }

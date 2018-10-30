@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: ubuntu1804_native
+    image: jgeusebroek/ubuntu1804-molecule
+    command: /lib/systemd/systemd
+    security_opts:
+      - seccomp=unconfined
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+    capabilities:
+      - SYS_ADMIN
+      - MKNOD
+    privileged: false
+    cap_add:
+      - mknod
+      - sys_admin
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+scenario:
+  name: ubuntu_native
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

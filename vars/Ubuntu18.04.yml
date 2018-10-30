@@ -1,0 +1,16 @@
+---
+mysql_native_package_name: mysql-server
+mysql_native_service_name: mysql
+
+mysql_native_package_service_map:
+  mysql-server: mysql.service
+  mariadb-server: mariadb.service
+
+mysql_native_version_package_map:
+  '5.7': mysql-server
+  '10.1': mariadb-server
+
+mysql_python_package: python-mysqldb
+
+mysql_mariadb_package_name: mariadb-server
+mysql_mariadb_service_name: mariadb.service

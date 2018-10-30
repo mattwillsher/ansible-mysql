@@ -1,0 +1,9 @@
+---
+- name: Run Setup
+  setup: ~
+
+- name: Start Service
+  service:
+    name: "{{ ansible_local.mysql.service_name }}"
+    state: started
+    enabled: true

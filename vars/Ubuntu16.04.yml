@@ -1,0 +1,10 @@
+---
+mysql_native_package_name: mysql-server
+mysql_native_service_name: mysql
+
+mysql_python_package: python-mysqldb
+
+mysql_mariadb_package_name: mariadb-server
+mysql_mariadb_service_name: mysql
+
+mysql_community_edition_supported: true

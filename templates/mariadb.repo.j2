@@ -1,0 +1,19 @@
+{%
+set os={
+  'RedHat': 'rhel',
+  'CentOS': 'centos',
+  'Fedora': 'fedora'
+}
+%}
+{%
+set arch={
+  'x86_64': 'amd64',
+  'i386':   'i386'
+}
+%}
+# {{ ansible_managed }}
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/{{ version }}/{{ os[ansible_facts.distribution] }}{{ ansible_facts.distribution_major_version }}-{{ arch[ansible_facts.architecture] }}
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1

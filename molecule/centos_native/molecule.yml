@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: centos7_native
+    image: centos/systemd
+    command: /lib/systemd/systemd
+    security_opts:
+      - seccomp=unconfined
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+    capabilities:
+      - SYS_ADMIN
+      - MKNOD
+    privileged: false
+    cap_add:
+      - mknod
+      - sys_admin
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+scenario:
+  name: centos_native
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

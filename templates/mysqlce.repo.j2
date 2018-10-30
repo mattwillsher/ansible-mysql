@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+[mysql{{ version | regex_replace('^(\d)\.(\d)$', '\\1\\2') }}-community]
+name=MySQL {{ version }} Community Server
+baseurl=http://repo.mysql.com/yum/mysql-{{ version }}-community/el/{{ ansible_facts.distribution_major_version }}/$basearch/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql

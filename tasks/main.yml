@@ -1,0 +1,64 @@
+---
+- name: Set OS dependent variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts.distribution }}{{ ansible_facts.distribution_version }}.yml"
+        - "{{ ansible_facts.distribution }}{{ ansible_facts.distribution_major_version }}.yml"
+        - default.yml
+      paths:
+        - 'vars'
+  when: mysql_skip_preset_vars == false
+
+- name: Install Server
+  include_tasks: "{{ mysql_installation_source }}/install.yml"
+
+- name: Install MySQL Python module
+  package:
+    name: "{{ mysql_python_package }}"
+    state: present
+
+- name: Ensure Ansible facts dir
+  file:
+    path: /etc/ansible/facts.d
+    state: directory
+
+- name: Write custom facts
+  template:
+    src: mysql_fact.j2
+    dest: /etc/ansible/facts.d/mysql.fact
+  notify: Run Setup
+
+- name: Flush handlers
+  meta: flush_handlers
+
+# Due to https://github.com/ansible/ansible/issues/43255, mysql_user call
+# is not idempotent with MariaDB >= 10.2
+- name: Setup root password
+  block:
+    - name: Database server root user password
+      mysql_user:
+        name: root
+        password: "{{ root_password }}"
+        host: "{{ item }}"
+      loop:
+        - '::1'
+        - '127.0.0.1'
+        - 'localhost'
+
+    - name: System root user .my.cnf
+      template:
+        src: my.cnf.j2
+        dest: "{{ ansible_env['HOME'] }}/.my.cnf"
+        owner: root
+        group: root
+        mode: 0600
+
+  when: root_password is defined
+
+- name: Setup databases
+  mysql_db:
+    name: "{{ item.name }}"
+  loop: "{{ mysql_databases }}"
+  when: mysql_databases is defined

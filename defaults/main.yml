@@ -1,0 +1,18 @@
+---
+
+# Source to use for MySQL installation
+# One of native, mariadb or mysqlce
+mysql_installation_source: native
+
+# Set the the mirror URL of the MariaDB repostiory to use
+mysql_mariadb_mirror: https://mirror.sax.uk.as61049.net/mariadb/repo
+
+# Name of the OS native package.
+mysql_package_name: mysql-server
+mysql_service_name: mysql
+
+# OS package name containing Python libraries for Ansible support
+mysql_python_package: MySQL-python
+
+# If set, don't override any values with preset OS values
+mysql_skip_preset_vars: false

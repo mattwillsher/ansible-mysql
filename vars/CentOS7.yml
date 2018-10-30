@@ -1,0 +1,8 @@
+---
+mysql_native_package_name: mariadb-server
+mysql_native_service_name: mariadb.service
+
+mysql_mariadb_package_name: MariaDB-server
+mysql_mariadb_service_name: mariadb.service
+
+mysql_python_package: MySQL-python

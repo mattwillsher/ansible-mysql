@@ -1,0 +1,4 @@
+---
+# mysql_package_service_map:
+#   mysql-server: mysql
+#   mariadb-server: mariadb

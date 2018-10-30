@@ -1,0 +1,14 @@
+---
+- name: MariaDB Package Repositories
+  include_tasks: "{{ ansible_facts.pkg_mgr }}.yml"
+
+- name: Install MariaDB
+  package:
+    name: "{{ mysql_mariadb_package_name }}"
+    state: present
+  notify: "Start Service"
+
+- name: Set mysql_service_name and mysql_package_name
+  set_fact:
+    mysql_service_name: "{{ mysql_mariadb_service_name }}"
+    mysql_package_name: "{{ mysql_mariadb_package_name }}"
